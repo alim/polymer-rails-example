@@ -22,10 +22,23 @@ The details and notes for each step are outlined in separate sections below.
 We are just going to build a basic Rails 5 application using the built-in
 _scaffold_ generator. I know the hard-core developers out there would rather
 build it by hand, but this is just an example. The application is a simple
-to-do list. I am sure you've seen it a hundred times by now!
+to-do list. I am sure you've seen it a hundred times by now, so I am going to
+assume you know your way around the basic Rails commands.
 
 ```
 $ rails new polymer-rails-example
 $ cd polymer-rails-example
 $ rails g scaffold ToDo task:string priority:integer due_date:datetime
+$ rake db:create
+$ rake db:migrate
 ```
+
+While your at it, go ahead and update your `config/routes.rb` to include an
+entry for your root route:
+
+```
+root 'to_dos#index'
+```
+
+Running `rails s` should spin up a simple running Rails application with
+a to-do list.
