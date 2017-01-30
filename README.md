@@ -42,3 +42,27 @@ root 'to_dos#index'
 
 Running `rails s` should spin up a simple running Rails application with
 a to-do list.
+
+# Add in Necessary Gems
+
+The next step is to add in the necessary gems to the Gemfile:
+
+* [polymer-rails](https://github.com/alchaplinsky/polymer-rails)
+* [polymer-elements-rails](https://github.com/alchaplinsky/polymer-elements-rails)
+
+Then execute:
+
+ ```
+ $ bundle install
+ $ rails g polymer:install
+ ```
+
+Once the installation is complete you can:
+
+1. Remove both `jquery` and `turbolinks` gems from the Gemfile
+1. Remove entries from - `app/assets/javascripts/application.js`
+  ```
+  //= require jquery
+  //= require jquery_ujs
+  //= require turbolinks
+  ```
