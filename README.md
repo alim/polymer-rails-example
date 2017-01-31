@@ -11,7 +11,8 @@ The example is built in the following sequence:
 1. Basic Rails application is built to create a Todo list
 1. Add in the necessary gems
 1. Update the application to use a flexible layout
-1. Add a navigation bar to the application
+1. Add a header and toolbar
+1. Add a navigation to the toolbar
 1. Add a table
 1. Add a form
 
@@ -73,6 +74,12 @@ The flexible layout can be implemented using the Polymer iron-flex-layout
 element styles. For more information on this component, see
 [here](https://www.webcomponents.org/element/PolymerElements/iron-flex-layout).
 
+1. Add the component to the `/app/assets/components/applciation.html.erb`
+
+  ```
+  //= require iron-flex-layout/iron-flex-layout
+  ```
+
 1. Update the header section to remove more of the turbolinks dependencies
 and the directive to add in the application components as follows:
 
@@ -86,14 +93,35 @@ and the directive to add in the application components as follows:
   </head>
   ```
 
-1. Next add the component to the `/app/assets/components/applciation.html.erb`
-
-  ```
-  //= require iron-flex-layout/iron-flex-layout
-  ```
-
 1. Add style to the `<body>` in the `/app/views/layouts/application.html.erb`
 
   ```
   <body class="fullbleed layout vertical">
   ```
+
+# Add Header and toolbar
+Next we will add a header and toolbar to the application.
+
+1. Add the component to the `/app/assets/components/applciation.html.erb`
+
+  ```
+  //= require paper-header-panel/paper-header-panel
+  //= require paper-toolbar/paper-toolbar
+  ```
+
+1. Update the `/app/views/layouts/application.html.erb`
+  ```
+  <paper-header-panel>
+    <paper-toolbar>
+      <h1>Task List</h1>
+    </paper-toolbar>
+
+    <%= yield %>
+
+  </paper-header-panel>
+  ```
+
+This will add a default `paper-header-panel` and `paper-toolbar` to the
+top of the application, but the `yield` seems to need to be inside
+the header-panel. You would think that there should be another way of
+doing this?
