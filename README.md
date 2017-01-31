@@ -66,3 +66,34 @@ Once the installation is complete you can:
   //= require jquery_ujs
   //= require turbolinks
   ```
+
+# Update Application to User Flexible Layout
+
+The flexible layout can be implemented using the Polymer iron-flex-layout
+element styles. For more information on this component, see
+[here](https://www.webcomponents.org/element/PolymerElements/iron-flex-layout).
+
+1. Update the header section to remove more of the turbolinks dependencies
+and the directive to add in the application components as follows:
+
+  ```
+  <head>
+    <title>PolymerRailsExample</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag 'application', media: 'all' %>
+    <%= html_import_tag 'application'%>
+  </head>
+  ```
+
+1. Next add the component to the `/app/assets/components/applciation.html.erb`
+
+  ```
+  //= require iron-flex-layout/iron-flex-layout
+  ```
+
+1. Add style to the `<body>` in the `/app/views/layouts/application.html.erb`
+
+  ```
+  <body class="fullbleed layout vertical">
+  ```
