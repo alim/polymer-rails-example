@@ -9,6 +9,14 @@
   </head>
 
   <body class="fullbleed layout vertical">
-    <%= yield %>
+    <paper-header-panel>
+      <paper-toolbar>
+        <h1>Task List</h1>
+      </paper-toolbar>
+
+      <!-- Why does the content have to go inside the header-panel? -->
+      <%= yield %>
+
+    </paper-header-panel>
   </body>
 </html>
