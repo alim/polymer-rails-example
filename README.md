@@ -9,7 +9,7 @@ separate branches. The master branch will hold the complete final example.
 The example is built in the following sequence:
 
 1. Basic Rails application is built to create a Todo list
-1. Add in the necessary gems
+1. Add in the necessary Polymer configuration
 1. Update the application to use a flexible layout
 1. Add a header and toolbar
 1. Add a navigation to the toolbar
@@ -44,23 +44,57 @@ root 'to_dos#index'
 Running `rails s` should spin up a simple running Rails application with
 a to-do list.
 
-# Add in Necessary Gems
+# Add in Polymer
 
-The next step is to add in the necessary gems to the Gemfile:
+The next step is to add in the necessary configuration for using Polymer
+components. We will go through the manual steps for this exercise to include
+Polymer components in the asset pipeline. You will require that
+[`bower`](https://bower.io/) package manager is installed on your system.
+The configuration steps are as follows:
 
-* [polymer-rails](https://github.com/alchaplinsky/polymer-rails)
-* [polymer-elements-rails](https://github.com/alchaplinsky/polymer-elements-rails)
+1. Create a `.bowerrc` file in the Rails root directory with the following entry:
+  ```
+  {
+   "directory": "vendor/assets/components"
+  }
+  ```
 
-Then execute:
+1. Add following method to app/helpers/application_helper.rb
+  ```
+   def include_polymer
+    @polymer = true
+    result = <<-EOF
+    <script src='/assets/webcomponentsjs/webcomponents-lite.js'></script>
+    EOF
+    result.html_safe
+  end
 
- ```
- $ bundle install
- $ rails g polymer:install
- ```
+  def include_component(package: nil, component: nil)
+    result = ""
+    unless @polymer == true
+      result = <<-EOF
+      <script src='/assets/webcomponentsjs/webcomponents-lite.js'></script>
+      EOF
+      @polymer = true
+    end
 
-Once the installation is complete you can:
+    result += <<-EOF
+      <link rel='import' href='/assets/#{package}/#{component}.html'>
+    EOF
+
+    result.html_safe
+  end
+  ```
+
+1. Install polymer with `bower`. We will install the individual
+  components in later steps and use the helper methods to reference
+  the components in the Rails ERB files. To install Polmer:
+  ```
+  $ bower install -S polymer
+  ```
 
 1. Remove both `jquery` and `turbolinks` gems from the Gemfile
+
 1. Remove entries from - `app/assets/javascripts/application.js`
   ```
   //= require jquery
@@ -68,60 +102,12 @@ Once the installation is complete you can:
   //= require turbolinks
   ```
 
-# Update Application to User Flexible Layout
-
-The flexible layout can be implemented using the Polymer iron-flex-layout
-element styles. For more information on this component, see
-[here](https://www.webcomponents.org/element/PolymerElements/iron-flex-layout).
-
-1. Add the component to the `/app/assets/components/applciation.html.erb`
-
+1. Update the `app/views/layouts/application.html.erb` file so that it
+  matches the following to remove turbolinks and adds the Polymer javascript
+  dependency:
   ```
-  //= require iron-flex-layout/iron-flex-layout
+  <%= stylesheet_link_tag    'application', media: 'all' %>
+  <%= javascript_include_tag 'application' %>
+  <%= include_polymer %>
   ```
-
-1. Update the header section to remove more of the turbolinks dependencies
-and the directive to add in the application components as follows:
-
-  ```
-  <head>
-    <title>PolymerRailsExample</title>
-    <%= csrf_meta_tags %>
-
-    <%= stylesheet_link_tag 'application', media: 'all' %>
-    <%= html_import_tag 'application'%>
-  </head>
-  ```
-
-1. Add style to the `<body>` in the `/app/views/layouts/application.html.erb`
-
-  ```
-  <body class="fullbleed layout vertical">
-  ```
-
-# Add Header and toolbar
-Next we will add a header and toolbar to the application.
-
-1. Add the component to the `/app/assets/components/applciation.html.erb`
-
-  ```
-  //= require paper-header-panel/paper-header-panel
-  //= require paper-toolbar/paper-toolbar
-  ```
-
-1. Update the `/app/views/layouts/application.html.erb`
-  ```
-  <paper-header-panel>
-    <paper-toolbar>
-      <h1>Task List</h1>
-    </paper-toolbar>
-
-    <%= yield %>
-
-  </paper-header-panel>
-  ```
-
-This will add a default `paper-header-panel` and `paper-toolbar` to the
-top of the application, but the `yield` seems to need to be inside
-the header-panel. You would think that there should be another way of
-doing this?
+  
