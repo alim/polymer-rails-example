@@ -6,7 +6,9 @@
 
     <%= stylesheet_link_tag    'application', media: 'all' %>
     <%= javascript_include_tag 'application' %>
-    <%= include_polymer %>
+
+    <!-- Polymer components -->
+    <%= html_import_tag 'application'%>
   </head>
 
   <body class="fullbleed layout vertical">

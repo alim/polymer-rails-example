@@ -59,38 +59,32 @@ The configuration steps are as follows:
   }
   ```
 
-1. Add following method to app/helpers/application_helper.rb
+1. Update the Gemfile to include the polymer gem:
   ```
-   def include_polymer
-    @polymer = true
-    result = <<-EOF
-    <script src='/assets/webcomponentsjs/webcomponents-lite.js'></script>
-    EOF
-    result.html_safe
-  end
-
-  def include_component(package: nil, component: nil)
-    result = ""
-    unless @polymer == true
-      result = <<-EOF
-      <script src='/assets/webcomponentsjs/webcomponents-lite.js'></script>
-      EOF
-      @polymer = true
-    end
-
-    result += <<-EOF
-      <link rel='import' href='/assets/#{package}/#{component}.html'>
-    EOF
-
-    result.html_safe
-  end
+  gem 'polymer-rails'
   ```
 
-1. Install polymer with `bower`. We will install the individual
-  components in later steps and use the helper methods to reference
-  the components in the Rails ERB files. To install Polmer:
+1. Run the installation generator for the polymer gem:
   ```
-  $ bower install -S polymer
+  $ rails g polymer:install
+  ```
+
+1. To add componments you just need to add them to the
+ `app/assets/components/application.html.erb` file in the following format:
+  ```
+  //= require polymer/polymer
+  //= require component-name/component-name
+  ```
+
+1. Update the `app/views/layouts/application.html.erb` file so that it
+  matches the following to remove turbolinks and adds the Polymer javascript
+  and component dependencies:
+  ```
+  <%= stylesheet_link_tag    'application', media: 'all' %>
+  <%= javascript_include_tag 'application' %>
+
+  <!-- Polymer components -->
+  <%= html_import_tag 'application'%>
   ```
 
 1. Remove both `jquery` and `turbolinks` gems from the Gemfile
@@ -102,12 +96,15 @@ The configuration steps are as follows:
   //= require turbolinks
   ```
 
-1. Update the `app/views/layouts/application.html.erb` file so that it
-  matches the following to remove turbolinks and adds the Polymer javascript
-  dependency:
+# Add Flexible Layout
+
+1. We can add the flexible layout by running:
   ```
-  <%= stylesheet_link_tag    'application', media: 'all' %>
-  <%= javascript_include_tag 'application' %>
-  <%= include_polymer %>
+  bower install iron-flex-layout
   ```
-  
+
+1. You then need to add a line to the `\app/assets/components/application.html.erb`
+file.
+  ```
+  //= require iron-flex-layout/iron-flex-layout
+  ```
