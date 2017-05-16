@@ -1,0 +1,25 @@
+{
+  "name": "polymer-rails-example",
+  "homepage": "https://github.com/alim/polymer-rails-example",
+  "authors": [
+    "Andy Lim <alim@nspartners.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "vendor/assets/components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "iron-flex-layout": "^1.3.2",
+    "app-layout": "PolymerElements/app-layout#^0.10.7",
+    "iron-icon": "PolymerElements/iron-icon#^1.0.12",
+    "iron-icons": "PolymerElements/iron-icons#^1.2.0"
+  }
+}

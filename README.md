@@ -96,15 +96,49 @@ The configuration steps are as follows:
   //= require turbolinks
   ```
 
-# Add Flexible Layout
+1. Remove the `app/assets/stylesheets/scaffold.scss`
+
+# Adding Components
+
+In general the method for adding polymer components to your Rails application
+follows this general pattern.
+
+1. Identify the component you want to use by browsing the
+   [Polymer Catalog](https://elements.polymer-project.org/)
+
+1. Install the component using the `bower install -S <component name>`
+
+1. Updating the `app/assets/components/application.html.erb` file with
+   the appropriate `//= require <component name>` engry
+
+1. Adding the Polymer components to your ERB file and adding any
+   component properties or calling any of the components methods.
+   See the reference in the Polymer catalog for styling updates,
+   properties or methods for each component.
+   
+1. Updating any CSS elements by adding them to the appropriate `.css` or
+   `.scss` file in the `app/assets/stylesheets` directory for the
+   views in which you are using the Polymer component.
+
+We will add a few Polymer components following the above steps, so you
+can get a feel for the general process.
+
+## Add Header Components
+
+Add the header banner and a menu bar across the top of all screens. This
+is done by adding the necessary Polymer components.
 
 1. We can add the flexible layout by running:
   ```
-  bower install iron-flex-layout
+  bower init
+  bower install -S iron-flex-layout
+  bower install -S PolymerElements/app-layout
   ```
 
-1. You then need to add a line to the `\app/assets/components/application.html.erb`
+1. You then need to add a line to the `app/assets/components/application.html.erb`
 file.
   ```
+  //= require polymer/polymer
   //= require iron-flex-layout/iron-flex-layout
+  //= require app-layout/app-layout
   ```

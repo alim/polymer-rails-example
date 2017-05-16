@@ -4,22 +4,18 @@
     <title>PolymerRailsExample</title>
     <%= csrf_meta_tags %>
 
-    <%= stylesheet_link_tag    'application', media: 'all' %>
+    <%= stylesheet_link_tag 'application', media: 'all' %>
     <%= javascript_include_tag 'application' %>
-
-    <!-- Polymer components -->
     <%= html_import_tag 'application'%>
   </head>
 
-  <body class="fullbleed layout vertical">
-    <paper-header-panel>
-      <paper-toolbar>
-        <h1>Task List</h1>
-      </paper-toolbar>
+  <body>
+    <task-header>Tasks</task-header>
+    <!-- Add side drawer for menu items -->
+    <app-drawer id="drawer" swipe-open></app-drawer>
+    <!-- <sample-content size="10">test</sample-content> -->
+    
+    <%= yield %>
 
-      <!-- Why does the content have to go inside the header-panel? -->
-      <%= yield %>
-
-    </paper-header-panel>
   </body>
 </html>
